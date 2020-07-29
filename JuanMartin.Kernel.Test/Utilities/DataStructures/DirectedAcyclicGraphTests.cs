@@ -186,9 +186,8 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         public void GetLongestPath_MustGetPathWithLargestWeight()
         {
             var g = CreateStringTestGraph();
-            var p = g.GetPaths();
-            var (weight, path) = g.GetLongestPath();
-            Assert.AreEqual(5, weight);
+            var path = g.GetLongestPath();
+            Assert.AreEqual(5, path.Weight);
         }
 
         [Test()]
