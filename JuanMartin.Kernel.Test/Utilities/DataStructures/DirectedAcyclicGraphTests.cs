@@ -183,6 +183,14 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         }
         
         [Test()]
+        public void StringTestGraph_MustHaveTwoPaths()
+        {
+            var g = CreateStringTestGraph();
+            var paths = g.GetPaths();
+            Assert.AreEqual(2, paths.Count);
+        }
+
+        [Test()]
         public void GetLongestPath_MustGetPathWithLargestWeight()
         {
             var g = CreateStringTestGraph();
