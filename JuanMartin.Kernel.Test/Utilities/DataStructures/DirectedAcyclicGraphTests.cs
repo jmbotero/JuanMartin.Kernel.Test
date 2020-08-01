@@ -177,17 +177,37 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         {
             var vertices = graph.GetRoot();
 
-            Assert.AreEqual(1,vertices.Count,"There should be only one vertex returned");
+            Assert.AreEqual(1, vertices.Count, "There should be only one vertex returned");
             Assert.AreEqual(v0.Name, vertices[0].Name, "The single root should be the test vertex named zero");
 
         }
+
         
+        [Test()]
+        public void MultiplePathTestGraph_MustHaveOnlyOneRoot()
+        {
+            var g = Create_MultiplePathsTestNumericGraph();
+            var vertices = g.GetRoot();
+
+            Assert.AreEqual(1, vertices.Count, "There should be only one vertex returned");
+            Assert.AreEqual("0", vertices[0].Name, "The single root should be the vertex named '0'");
+
+        }
+
         [Test()]
         public void StringTestGraph_MustHaveTwoPaths()
         {
             var g = CreateStringTestGraph();
             var paths = g.GetPaths();
             Assert.AreEqual(2, paths.Count);
+        }
+
+        [Test()]
+        public void NumericTestGraph_MustHaveSixPaths()
+        {
+            var g = Create_MultiplePathsTestNumericGraph();
+            var paths = g.GetPaths();
+            Assert.AreEqual(6, paths.Count);
         }
 
         [Test()]
@@ -251,8 +271,48 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             return g;
         }
 
+        private static readonly int[] n = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
         /// <summary>
-        /// Create graph with one root
+        /// Numeric graph with with six paths one root and one leaf 
+        /// </summary>
+        /// <returns></returns>
+        private DirectedAcyclicGraph<int> Create_MultiplePathsTestNumericGraph()
+        {
+            var vertices = new List<Vertex<int>>();
+
+            foreach (var i in n)
+            {
+                vertices.Add(new Vertex<int>(i));
+            }
+
+            var g = new DirectedAcyclicGraph<int>(vertices);
+
+            g.AddEdge(vertices[0], vertices[1], Edge<int>.EdgeDirection.bidirectional, null, 1);
+            g.AddEdge(vertices[0], vertices[2], Edge<int>.EdgeDirection.bidirectional, null, 2);
+            g.AddEdge(vertices[0], vertices[3], Edge<int>.EdgeDirection.bidirectional, null, 3);
+
+            g.AddEdge(vertices[1], vertices[4], Edge<int>.EdgeDirection.bidirectional, null, 4);
+            g.AddEdge(vertices[1], vertices[5], Edge<int>.EdgeDirection.bidirectional, null, 5);
+
+            g.AddEdge(vertices[2], vertices[6], Edge<int>.EdgeDirection.bidirectional, null, 6);
+            g.AddEdge(vertices[2], vertices[7], Edge<int>.EdgeDirection.bidirectional, null, 7);
+
+            g.AddEdge(vertices[3], vertices[8], Edge<int>.EdgeDirection.bidirectional, null, 8);
+            g.AddEdge(vertices[3], vertices[9], Edge<int>.EdgeDirection.bidirectional, null, 9);
+
+            g.AddEdge(vertices[4], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 10);
+            g.AddEdge(vertices[5], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 11);
+            g.AddEdge(vertices[6], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 12);
+            g.AddEdge(vertices[7], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 13);
+            g.AddEdge(vertices[8], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 14);
+            g.AddEdge(vertices[9], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 15);
+
+            return g;
+        }
+
+        /// <summary>
+        /// Create numeric values graph with three paths and one root
         /// </summary
         /// <param name="v0"></param>
         /// <param name="v1"></param>
