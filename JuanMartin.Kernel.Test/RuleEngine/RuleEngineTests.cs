@@ -10,7 +10,7 @@ namespace JuanMartin.Kernel.Test.RuleEngine
         {
             var engine = new JuanMartin.Kernel.RuleEngine.RuleEngine("SingleXmlRuleTest");
 
-            engine.Load(@"C:\Git\JuanMartin.Kernel\JuanMartin.Kernel\UnitTest\ut-single-rule.xml");
+            engine.Load(@"C:\Git\JuanMartin.Kernel.Test\JuanMartin.Kernel.Test\data\ut-single-rule.xml");
 
             engine.Execute();
 
