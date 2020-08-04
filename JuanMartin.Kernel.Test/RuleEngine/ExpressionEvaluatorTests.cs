@@ -35,7 +35,7 @@ namespace JuanMartin.Kernel.Test.RuleEngine
             Dictionary<string, Symbol> aliases = new Dictionary<string, Symbol>();
             ExpressionEvaluator _eval = new ExpressionEvaluator(aliases);
 
-            Symbol alias = new Symbol("alias::Type", "JuanMartin.Kernel.Utilities.UtilityType", Symbol.TokenType.Value);
+            Symbol alias = new Symbol("alias::Type", "JuanMartin.Kernel.Utilities.UtilityType", Symbol.TokenType.Alias);
             aliases.Add("Type", alias);
 
             _eval.Parse("Type.IsNull('a')");

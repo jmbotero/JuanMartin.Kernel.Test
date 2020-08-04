@@ -13,7 +13,7 @@ namespace JuanMartin.Kernel.Test.Adapters
 
             Message request = new Message("Command", System.Data.CommandType.StoredProcedure.ToString());
 
-            request.AddData(new ValueHolder("result", "uspAdapterTest"));
+            request.AddData("uspAdapterTest");
             request.AddSender("MysqlTest", typeof(AdapterMySqlTests).ToString());
 
             adapter.Send(request);
