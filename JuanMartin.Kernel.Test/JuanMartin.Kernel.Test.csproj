@@ -67,6 +67,7 @@
     <Compile Include="Utilities\DataStructures\LinkedListTests.cs" />
     <Compile Include="Utilities\DataStructures\QueueTests.cs" />
     <Compile Include="Utilities\UtilityFileTests.cs" />
+    <Compile Include="Utilities\UtilityMathTests.cs" />
     <Compile Include="Utilities\UtilityStringTests.cs" />
   </ItemGroup>
   <ItemGroup>
