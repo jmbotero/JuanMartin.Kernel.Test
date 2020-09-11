@@ -1,5 +1,6 @@
 ﻿using JuanMartin.Kernel.Utilities;
 using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -12,11 +13,12 @@ namespace JuanMartin.Kernel.Utilities.Tests
         [Test]
         public void SqrtBySubstraction_SqrtResultMultipliedByItselfShouldBeEqualToOriginalNumber()
         {
-            for (double expected_number = 0.001; expected_number < 100; expected_number += 0.5d)
+            for (var expected_number = 0.5; expected_number < 10; expected_number += 0.5)
             {
-                double actual_number = UtilityMath.Sqrt_By_Substraction(expected_number);
+                var actual_sqrt = UtilityMath.Sqrt_By_Substraction(expected_number,5);
+                var actual_number = Math.Round(actual_sqrt * actual_sqrt, 3);
 
-                Assert.AreEqual(expected_number, actual_number * actual_number);
+                Assert.AreEqual(expected_number, actual_number);
             }
         } 
         #endregion
@@ -25,10 +27,10 @@ namespace JuanMartin.Kernel.Utilities.Tests
         [Test]
         public void NumberShouldHaveOnePatternForAtLeastTwoDigitsRepeatinng()
         {
-            var masks = UtilityMath.GetNumericMasks(123426);
+            var masks = UtilityMath.GetNumericPatterns(123426);
             Assert.IsTrue(masks.Where(m => Regex.Matches(m, @"\\1").Count == 1).Count() == 1);
 
-            var masks2 = UtilityMath.GetNumericMasks(223426);
+            var masks2 = UtilityMath.GetNumericPatterns(223426);
             Assert.IsFalse(masks2.Where(m => Regex.Matches(m, @"\\1").Count == 1).Count() == 1);
 
         }
@@ -36,7 +38,7 @@ namespace JuanMartin.Kernel.Utilities.Tests
         [Test]
         public void NumberShouldReturnOneValidRegexPatternForEverySetofRepeatedDigits()
         {
-            var masks = UtilityMath.GetNumericMasks(121313);
+            var masks = UtilityMath.GetNumericPatterns(121313);
 
             Assert.AreEqual(2, masks.Count);
             Assert.IsTrue(masks.Contains(@"\d\d\d(\d)\d\1"));
