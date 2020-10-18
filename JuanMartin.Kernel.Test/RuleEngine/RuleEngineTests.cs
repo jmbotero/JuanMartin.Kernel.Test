@@ -16,7 +16,7 @@ namespace JuanMartin.Kernel.Test.RuleEngine
 
             var foo2 = engine.FactLookup("foo2");
 
-            Assert.AreEqual(foo2.Value.Result, 4);
+            Assert.AreEqual(4, foo2.Value.Result);
         }
     }
 }

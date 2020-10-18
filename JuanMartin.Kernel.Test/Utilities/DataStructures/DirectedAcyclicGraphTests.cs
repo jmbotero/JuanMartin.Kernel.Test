@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using JuanMartin.Kernel.Utilities.DataStructures;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
     public class DirectedAcyclicGraphTests
     {
         private Vertex<int> v1, v2, v3, v0;
-        private int expected_vertex_count=6, expected_edge_count=6;
+        private int expected_vertex_count = 6, expected_edge_count = 6;
         private DirectedAcyclicGraph<int> graph;
 
         [SetUp]
@@ -182,7 +183,7 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
 
         }
 
-        
+
         [Test()]
         public void MultiplePathTestGraph_MustHaveOnlyOneRoot()
         {
@@ -221,12 +222,19 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         [Test()]
         public void ToString_MustReturnStrinRepresentationOfThePlanarizedGraphAsCommaSeparatedListOfItsVerticesWithEdges()
         {
-            var expected_representation = "a:[ a-n:1 ],n:[ n-d:1 ],d:[  ],";
+            var expected_representation = "a:[ oneword:a-n:1 ],n:[ oneword:n-d:1 ],d:[  ],";
 
             var g = CreateStringTestSinglePathGraph();
             var actual_representation = g.ToString(true);
 
             Assert.AreEqual(expected_representation, actual_representation);
+        }
+
+        [Test()]
+        public void GetDijkstraShortestPathTest()
+        {
+            var g = CreateFitCodeGraph();
+            var actual_shortest_path = g.GetDijkstraShortestPath("0","4");
         }
 
         private DirectedAcyclicGraph<string> CreateStringTestGraph()
@@ -302,9 +310,9 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             g.AddEdge(vertices[3], vertices[9], Edge<int>.EdgeDirection.bidirectional, null, 9);
 
             g.AddEdge(vertices[4], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 10);
-            g.AddEdge(vertices[5], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 11);
-            g.AddEdge(vertices[6], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 12);
-            g.AddEdge(vertices[7], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 13);
+                g.AddEdge(vertices[5], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 11);
+                g.AddEdge(vertices[6], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 12);
+                g.AddEdge(vertices[7], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 13);
             g.AddEdge(vertices[8], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 14);
             g.AddEdge(vertices[9], vertices[10], Edge<int>.EdgeDirection.bidirectional, null, 15);
 
@@ -312,21 +320,87 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         }
 
         /// <summary>
+        /// Graph used in FitCode's Dijstra's algorithm video
+        /// <see cref="https://www.youtube.com/watch?v=J12sfRYpW-M"/>
+        /// </summary>
+        /// <returns></returns>
+        private DirectedAcyclicGraph<string> CreateFitCodeGraph()
+        {
+            var vertices = new List<Vertex<string>>();
+
+            foreach (var i in Enumerable.Range(0, 9))
+            {
+                vertices.Add(new Vertex<string>(i.ToString()));
+            }
+
+            var g = new DirectedAcyclicGraph<string>(vertices);
+
+            g.AddEdge(vertices[0], vertices[1], Edge<string>.EdgeDirection.bidirectional, null, 4);
+            g.AddEdge(vertices[0], vertices[7], Edge<string>.EdgeDirection.bidirectional, null, 8);
+
+            g.AddEdge(vertices[1], vertices[7], Edge<string>.EdgeDirection.bidirectional, null, 11);
+            g.AddEdge(vertices[1], vertices[2], Edge<string>.EdgeDirection.bidirectional, null, 8);
+
+            g.AddEdge(vertices[2], vertices[8], Edge<string>.EdgeDirection.bidirectional, null, 2);
+            g.AddEdge(vertices[2], vertices[5], Edge<string>.EdgeDirection.bidirectional, null, 4);
+            g.AddEdge(vertices[2], vertices[3], Edge<string>.EdgeDirection.bidirectional, null, 7);
+
+            g.AddEdge(vertices[8], vertices[7], Edge<string>.EdgeDirection.bidirectional, null, 7);
+            g.AddEdge(vertices[8], vertices[6], Edge<string>.EdgeDirection.bidirectional, null, 6);
+
+            g.AddEdge(vertices[3], vertices[4], Edge<string>.EdgeDirection.bidirectional, null, 9);
+            g.AddEdge(vertices[3], vertices[5], Edge<string>.EdgeDirection.bidirectional, null, 0);
+
+            g.AddEdge(vertices[6], vertices[7], Edge<string>.EdgeDirection.bidirectional, null, 1);
+            g.AddEdge(vertices[6], vertices[5], Edge<string>.EdgeDirection.bidirectional, null, 2);
+
+            g.AddEdge(vertices[5], vertices[4], Edge<string>.EdgeDirection.bidirectional, null, 10);
+
+
+            return g;
+        }
+
+        /// <summary>
+        /// Graph used in FitCode's Dijstra's algorithm video
+        /// <see cref="https://www.youtube.com/watch?v=pVfj6mxhdMw"/>
+        /// </summary>
+        /// <returns></returns>
+        private DirectedAcyclicGraph<string> CreateComputerScienceGraph()
+        {
+            var vertices = new List<Vertex<string>>();
+
+            foreach (var i in Enumerable.Range(0, 5))
+            {
+                vertices.Add(new Vertex<string>(Convert.ToChar(i + 65).ToString()));
+            }
+
+            var g = new DirectedAcyclicGraph<string>(vertices);
+
+            g.AddEdge(vertices[0], vertices[1], Edge<string>.EdgeDirection.bidirectional, null, 6);
+            g.AddEdge(vertices[0], vertices[3], Edge<string>.EdgeDirection.bidirectional, null, 1);
+
+            g.AddEdge(vertices[1], vertices[2], Edge<string>.EdgeDirection.bidirectional, null, 5);
+            g.AddEdge(vertices[1], vertices[3], Edge<string>.EdgeDirection.bidirectional, null, 2);
+            g.AddEdge(vertices[1], vertices[4], Edge<string>.EdgeDirection.bidirectional, null, 2);
+
+            g.AddEdge(vertices[2], vertices[4], Edge<string>.EdgeDirection.bidirectional, null, 5);
+
+            g.AddEdge(vertices[3], vertices[4], Edge<string>.EdgeDirection.bidirectional, null, 1);
+
+            return g;
+        }
+
+        /// <summary>
         /// Create numeric values graph with three paths and one root
         /// </summary
-        /// <param name="v0"></param>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        /// <param name="v3"></param>
-        /// <param name="g"></param>
         private DirectedAcyclicGraph<int> CreateNumericTestGraph()
         {
             var vertices = new List<Vertex<int>>();
 
             v0 = new Vertex<int>(0, "zero"); // this will be the only root of this graph: no incoming edges to it
             v1 = new Vertex<int>(1, "one");
-            v2 = new Vertex<int>(2,"two");
-            v3 = new Vertex<int>(3,"three");
+            v2 = new Vertex<int>(2, "two");
+            v3 = new Vertex<int>(3, "three");
             var v4 = new Vertex<int>(1, "four");
             var v5 = new Vertex<int>(5, "five");
             vertices.Add(v0);
@@ -338,10 +412,10 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             expected_vertex_count = vertices.Count;
 
             var g = new DirectedAcyclicGraph<int>(vertices);
-            g.AddEdge(from: v0, to: v1,name: "start",weight: 5);
-            g.AddEdge(from: v1,to: v2,name: "add",weight: 4);
-            g.AddEdge(from: v2, to: v3,name: "add",weight: 1);
-            g.AddEdge(from: v1, to: v2,name: "substract",weight: 2);
+            g.AddEdge(from: v0, to: v1, name: "start", weight: 5);
+            g.AddEdge(from: v1, to: v2, name: "add", weight: 4);
+            g.AddEdge(from: v2, to: v3, name: "add", weight: 1);
+            g.AddEdge(from: v1, to: v2, name: "substract", weight: 2);
             g.AddEdge(from: v1, to: v4, name: "copy", weight: 3);
             g.AddEdge(from: v4, to: v5, name: "add", weight: 6);
 

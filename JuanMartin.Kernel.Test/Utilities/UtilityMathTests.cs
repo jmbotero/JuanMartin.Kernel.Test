@@ -23,7 +23,7 @@ namespace JuanMartin.Kernel.Utilities.Tests
         }
         #endregion
 
-        #region GetNumericMasks tests
+        #region GetNumericPatterns tests
         [Test]
         public void NumberShouldHaveOnePatternForAtLeastTwoDigitsRepeatinng()
         {
@@ -46,6 +46,7 @@ namespace JuanMartin.Kernel.Utilities.Tests
         }
         #endregion
 
+        #region GetPeriodicalSequence tests
         [Test()]
         public void ShouldRetunEmptyStringOPeriodicalStrigOfNumbersInDecimal()
         {
@@ -80,6 +81,7 @@ namespace JuanMartin.Kernel.Utilities.Tests
 
             Assert.AreEqual(expected_sequence, actual_sequence);
 
-        }
+        } 
+        #endregion
     }
 }
