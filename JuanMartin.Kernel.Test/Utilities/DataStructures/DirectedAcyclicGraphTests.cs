@@ -93,7 +93,7 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             graph.AddEdge(from: v1, to: v2, type: Edge<int>.EdgeType.outgoing, name: "substract");
 
             // check new weight
-            edge = graph.GetEdge("substract", type: Edge<int>.EdgeType.outgoing);
+            edge = graph.GetEdge("substract", type: Edge<int>.EdgeType.outgoing );
 
             const int WeightAterReAdd = 3;
             Assert.AreEqual(WeightAterReAdd, edge.Weight);
@@ -246,10 +246,16 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         [Test()]
         public void GetDijkstraShortestPathTest()
         {
-            Assert.Pass();
+            var expected_distance = 7;
+            var expected_path = "A,D,E,C";
+            var g = CreateComputerScienceGraph();
 
-            var g = CreateFitCodeGraph();
-            var actual_shortest_path = g.GetDijkstraShortestPath("0","4");
+            var d = g.GetDijkstraShortestPath("A", "C");
+            var actual_shortest_path = string.Join(",", d.ShotestPath.Vertices.Select(v=>v.Name));
+            var actual_distance = d.Distance;
+
+            Assert.AreEqual(expected_distance, actual_distance);
+            Assert.AreEqual(expected_path, actual_shortest_path);
         }
 
         private DirectedAcyclicGraph<string> CreateStringTestGraph()
@@ -378,8 +384,7 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             return g;
         }
 
-        /// <summary>
-        /// Graph used in FitCode's Dijstra's algorithm video
+        /// <summary>ComputerScience's Dijstra's algorithm video
         /// <see cref="https://www.youtube.com/watch?v=pVfj6mxhdMw"/>
         /// </summary>
         /// <returns></returns>
@@ -394,16 +399,19 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
 
             var g = new DirectedAcyclicGraph<string>(vertices);
 
+
             g.AddEdge(vertices[0], vertices[1], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 6);
             g.AddEdge(vertices[0], vertices[3], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 1);
 
-            g.AddEdge(vertices[1], vertices[2], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 5);
-            g.AddEdge(vertices[1], vertices[3], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 2);
-            g.AddEdge(vertices[1], vertices[4], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 2);
-
-            g.AddEdge(vertices[2], vertices[4], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 5);
-
             g.AddEdge(vertices[3], vertices[4], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 1);
+            g.AddEdge(vertices[3], vertices[1], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 2);
+
+            g.AddEdge(vertices[4], vertices[1], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 2);
+            g.AddEdge(vertices[4], vertices[2], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 5);
+
+            g.AddEdge(vertices[1], vertices[2], type: Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional, null, 5);
+
+
 
             return g;
         }
