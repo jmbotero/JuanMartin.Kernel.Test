@@ -63,10 +63,12 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         }
 
         [Test()]
-        public void AddDuplicateVertex_MusNotAddNode()
+        public void AddDuplicateVertex_MustAddNode()
         {
-            // name should be unique
-            Assert.IsFalse(graph.AddVertex(1000, v1.Name));
+            // if name is be unique change graph dups status
+            Assert.IsFalse(graph.HasDuplicateVertexNames,"no duplicates");
+            Assert.IsTrue(graph.AddVertex(1000, v1.Name),"add duplicate with v1 name");
+            Assert.IsTrue(graph.HasDuplicateVertexNames,"one duplicate");
         }
 
         [Test()]
@@ -145,7 +147,7 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
 
             g.AddEdge(v1, v2, Edge<string>.EdgeType.outgoing, Edge<string>.EdgeDirection.bidirectional,"connect",1);
 
-            Assert.IsTrue((v1.Neighbors.Count == 1) && (v2.Neighbors.Count == 1),"Neighbor Count");
+            Assert.IsTrue((v1.Neighbors.Count == 2) && (v2.Neighbors.Count == 2),"Neighbor Count");
             Assert.IsTrue((v1.Edges.Count == 2) && (v2.Edges.Count == 2),"Total edge count");
             Assert.IsTrue((v1.OutgoingEdges().Count == 1) && (v1.IncomingEdges().Count == 1) && (v2.OutgoingEdges().Count == 1) && (v2.IncomingEdges().Count == 1),"Edge counnt by typr");
         }
@@ -166,7 +168,7 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             Assert.AreEqual(3, v1.OutgoingEdges().Count, "Initially there should be three outgoing edges from.");
 
             // delete edges between v1 and v2
-            Assert.AreEqual(2, graph.RemoveEdges(v1, v2,Edge<int>.EdgeType.both).Count, "Between v1 and v2 there are two edges.");
+            Assert.AreEqual(2, graph.RemoveEdges(v1, v2,Edge<int>.EdgeType.outgoing).Count, "Between v1 and v2 there are two edges.");
             Assert.AreEqual(1, v1.OutgoingEdges().Count, "After removing the edges from v1 that go to v2 only one remains.");
         }
 
@@ -246,33 +248,52 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         [Test()]
         public void MustGetShortestDistancePathFromEdgeCenteredSimpleGraph()
         {
+            //Assert.Pass();
             var expected_distance = 7;
             var expected_path = "A,D,E,C";
             var g = CreateComputerScienceGraph();
 
-            var d = g.GetDijkstraShortestPath("A", "C");
-            var actual_shortest_path = string.Join(",", d.ShotestPath.Vertices.Select(v => v.Name));
-            var actual_distance = d.Distance;
+            var (actual_distance, actual_path) = g.GetDijkstraShortestPath("A", "C");
+            var actual_shortest_path = string.Join(",", actual_path.Vertices.Select(v => v.Name));
 
-            Assert.AreEqual(expected_distance, actual_distance);
-            Assert.AreEqual(expected_path, actual_shortest_path);
+            Assert.AreEqual(expected_distance, actual_distance, "shortest distance");
+            Assert.AreEqual(expected_path, actual_shortest_path, "shortest path");
         }
 
+        [Test()]
+        public void AllEdgesInGraphMustHaveCorrspondingNeighbors()
+        {
+            var g = CreateComputerScienceGraph();
+
+            foreach(var V in g.Vertices)
+            {
+                foreach(var E in V.Edges)
+                {
+                    var vertex_source = E.From;
+                    var vertex_target = E.To;
+
+                    if (E.Type == Edge<string>.EdgeType.outgoing)
+                        Assert.IsTrue(V.Neighbors.Where(n => n.Type == Neighbor<string>.NeighborType.outgoing && n.Node.Guid == vertex_target.Guid).FirstOrDefault() != null,"outgoing check");
+
+                    if (E.Type == Edge<string>.EdgeType.incoming)
+                        Assert.IsTrue(V.Neighbors.Where(n => n.Type == Neighbor<string>.NeighborType.incoming && n.Node.Guid == vertex_source.Guid).FirstOrDefault() != null, "inconcoming check");
+                }
+            }
+        }
 
         [Test()]
         public void MustGetShortestDistancePathFromEdgeCenteredGraph()
         {
-            Assert.Pass();
-            //var expected_distance = 21;
-            //var expected_path = "0,7,6,5,4";
-            //var g = CreateMisterCodeGraph();
+            //Assert.Pass();
+            var expected_distance = 10;
+            var expected_path = "A,B,G";
+            var g = SWEGraph();
 
-            //var d = g.GetDijkstraShortestPath("0", "4");
-            //var actual_shortest_path = string.Join(",", d.ShotestPath.Vertices.Select(v => v.Name));
-            //var actual_distance = d.Distance;
+            var (actual_distance, actual_path) = g.GetDijkstraShortestPath("A", "G");
+            var actual_shortest_path = string.Join(",", actual_path.Vertices.Select(v => v.Name));
 
-            //Assert.AreEqual(expected_distance, actual_distance);
-            //Assert.AreEqual(expected_path, actual_shortest_path);
+            Assert.AreEqual(expected_distance, actual_distance, "shortest distance");
+            Assert.AreEqual(expected_path, actual_shortest_path, "shortest path");
         }
 
         private DirectedAcyclicGraph<string> CreateStringTestGraph()
@@ -357,46 +378,7 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             return g;
         }
 
-        /// <summary>
-        /// Graph used in Youtube-MisterCode's Dijstra's algorithm video
-        /// <see cref="https://www.youtube.com/watch?v=4xROtuo1xAw"/>
-        /// </summary>
-        /// <returns></returns>
-        private DirectedAcyclicGraph<string> CreateMisterCodeGraph()
-        {
-            var vertices = new List<Vertex<string>>();
 
-            foreach (var i in Enumerable.Range(0, 9))
-            {
-                vertices.Add(new Vertex<string>(i.ToString()));
-            }
-
-            var g = new DirectedAcyclicGraph<string>(vertices);
-
-            g.AddEdge(vertices[0], vertices[1], name: null, weight: 4);
-            g.AddEdge(vertices[0], vertices[7], name: null, weight: 8);
-
-            g.AddEdge(vertices[1], vertices[7], name: null, weight: 11);
-            g.AddEdge(vertices[1], vertices[2], name: null, weight: 8);
-
-            g.AddEdge(vertices[2], vertices[8], name: null, weight: 2);
-            g.AddEdge(vertices[2], vertices[5], name: null, weight: 4);
-            g.AddEdge(vertices[2], vertices[3], name: null, weight: 7);
-
-            g.AddEdge(vertices[3], vertices[4], name: null, weight: 9);
-            g.AddEdge(vertices[3], vertices[5], name: null, weight: 14);
-
-            g.AddEdge(vertices[4], vertices[5], name: null, weight: 10);
-
-            g.AddEdge(vertices[5], vertices[6], name: null, weight: 2);
-
-            g.AddEdge(vertices[6], vertices[7], name: null, weight: 1);
-            g.AddEdge(vertices[6], vertices[8], name: null, weight: 6);
-
-            g.AddEdge(vertices[7], vertices[8], name: null, weight: 7);
-
-            return g;
-        }
 
         /// <summary>ComputerScience's Dijstra's algorithm video
         /// <see cref="https://www.youtube.com/watch?v=pVfj6mxhdMw"/>
@@ -426,6 +408,43 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             g.AddEdge(vertices[1], vertices[2], name: null, weight: 5);
 
 
+
+            return g;
+        }
+
+        /// <summary>B2B-SWE's Dijstra's algorithm video
+        /// <see cref="https://www.youtube.com/watch?v=K_1urzWrzLs"/>
+        /// </summary>
+        /// <returns></returns>
+        private DirectedAcyclicGraph<string> SWEGraph()
+        {
+            var vertices = new List<Vertex<string>>();
+
+            foreach (var i in Enumerable.Range(0, 7))
+            {
+                vertices.Add(new Vertex<string>(Convert.ToChar(i + 65).ToString()));
+            }
+
+            var g = new DirectedAcyclicGraph<string>(vertices);
+
+
+            g.AddEdge(vertices[0], vertices[1], name: null, weight: 2);
+            g.AddEdge(vertices[0], vertices[2], name: null, weight: 4);
+            g.AddEdge(vertices[0], vertices[3], name: null, weight: 7);
+            g.AddEdge(vertices[0], vertices[5], name: null, weight: 5);
+
+            g.AddEdge(vertices[1], vertices[3], name: null, weight: 6);
+            g.AddEdge(vertices[1], vertices[4], name: null, weight: 3);
+            g.AddEdge(vertices[1], vertices[6], name: null, weight: 8);
+
+            g.AddEdge(vertices[2], vertices[5], name: null, weight: 6);
+
+            g.AddEdge(vertices[3], vertices[5], name: null, weight: 1);
+            g.AddEdge(vertices[3], vertices[6], name: null, weight: 6);
+
+            g.AddEdge(vertices[4], vertices[6], name: null, weight: 7);
+
+            g.AddEdge(vertices[5], vertices[6], name: null, weight: 6);
 
             return g;
         }
