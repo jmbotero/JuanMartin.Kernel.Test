@@ -245,19 +245,30 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             Assert.AreEqual(expected_representation, actual_representation);
         }
 
+
         [Test()]
-        public void MustGetShortestDistancePathFromEdgeCenteredSimpleGraph()
+        public void MustGetSingleShortestPathBetweenTwoGivenVertices()
         {
             //Assert.Pass();
             var expected_distance = 7;
             var expected_path = "A,D,E,C";
             var g = CreateComputerScienceGraph();
 
-            var (actual_distance, actual_path) = g.GetDijkstraShortestPath("A", "C");
+            var (actual_distance, actual_path) = g.GetDijkstraSingleShortestPath("A", "C");
             var actual_shortest_path = string.Join(",", actual_path.Vertices.Select(v => v.Name));
 
-            Assert.AreEqual(expected_distance, actual_distance, "shortest distance");
-            Assert.AreEqual(expected_path, actual_shortest_path, "shortest path");
+            Assert.AreEqual(expected_distance, actual_distance, "Computer Science graph: A-C shortest distance");
+            Assert.AreEqual(expected_path, actual_shortest_path, "Computer Science graph: A-C shortest path");
+
+            expected_distance = 10;
+            expected_path = "A,B,G";
+            g = CreateSWEGraph();
+
+            (actual_distance, actual_path) = g.GetDijkstraSingleShortestPath("A", "G");
+            actual_shortest_path = string.Join(",", actual_path.Vertices.Select(v => v.Name));
+
+            Assert.AreEqual(expected_distance, actual_distance, "SWE graph: A-G shortest distance");
+            Assert.AreEqual(expected_path, actual_shortest_path, "SWE graph: A-G shortest path");
         }
 
         [Test()]
@@ -281,20 +292,6 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             }
         }
 
-        [Test()]
-        public void MustGetShortestDistancePathFromEdgeCenteredGraph()
-        {
-            //Assert.Pass();
-            var expected_distance = 10;
-            var expected_path = "A,B,G";
-            var g = SWEGraph();
-
-            var (actual_distance, actual_path) = g.GetDijkstraShortestPath("A", "G");
-            var actual_shortest_path = string.Join(",", actual_path.Vertices.Select(v => v.Name));
-
-            Assert.AreEqual(expected_distance, actual_distance, "shortest distance");
-            Assert.AreEqual(expected_path, actual_shortest_path, "shortest path");
-        }
 
         private DirectedAcyclicGraph<string> CreateStringTestGraph()
         {
@@ -416,7 +413,7 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
         /// <see cref="https://www.youtube.com/watch?v=K_1urzWrzLs"/>
         /// </summary>
         /// <returns></returns>
-        private DirectedAcyclicGraph<string> SWEGraph()
+        private DirectedAcyclicGraph<string> CreateSWEGraph()
         {
             var vertices = new List<Vertex<string>>();
 
