@@ -269,6 +269,16 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
 
             Assert.AreEqual(expected_distance, actual_distance, "SWE graph: A-G shortest distance");
             Assert.AreEqual(expected_path, actual_shortest_path, "SWE graph: A-G shortest path");
+
+            expected_distance = 19;
+            expected_path = "0,1,3,4,6";
+            g = CreaateFreeCodeCampGraph();
+
+            (actual_distance, actual_path) = g.GetDijkstraSingleShortestPath("0", "6");
+            actual_shortest_path = string.Join(",", actual_path.Vertices.Select(v => v.Name));
+
+            Assert.AreEqual(expected_distance, actual_distance, "Free Code Camp graph: 0-6 shortest distance");
+            Assert.AreEqual(expected_path, actual_shortest_path, "Free Code Camp graph: 0-6 shortest path");
         }
 
         [Test()]
@@ -375,7 +385,38 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             return g;
         }
 
+        /// <summary>FreeCodeCamp's Dijstra's algorithm video
+        /// <see cref=@"https://www.freecodecamp.org/news/dijkstras-shortest-path-algorithm-visual-introduction/#:~:text=Dijkstra's%20Algorithm%20finds%20the%20shortest,node%20and%20all%20other%20nodes."/>
+        /// </summary>
+        /// <returns></returns>
+        private DirectedAcyclicGraph<string> CreaateFreeCodeCampGraph()
+        {
+            var vertices = new List<Vertex<string>>();
 
+            foreach (var i in Enumerable.Range(0, 7))
+            {
+                vertices.Add(new Vertex<string>(i.ToString()));
+            }
+
+            var g = new DirectedAcyclicGraph<string>(vertices);
+
+
+            g.AddEdge(vertices[0], vertices[1], name: null, weight: 2);
+            g.AddEdge(vertices[0], vertices[2], name: null, weight: 6);
+
+            g.AddEdge(vertices[1], vertices[3], name: null, weight: 5);
+            g.AddEdge(vertices[2], vertices[3], name: null, weight: 8);
+
+            g.AddEdge(vertices[3], vertices[4], name: null, weight: 10);
+            g.AddEdge(vertices[3], vertices[5], name: null, weight: 15);
+
+            g.AddEdge(vertices[4], vertices[5], name: null, weight: 6);
+            g.AddEdge(vertices[4], vertices[6], name: null, weight: 2);
+
+            g.AddEdge(vertices[5], vertices[6], name: null, weight: 6);
+
+            return g;
+        }
 
         /// <summary>ComputerScience's Dijstra's algorithm video
         /// <see cref="https://www.youtube.com/watch?v=pVfj6mxhdMw"/>
@@ -409,7 +450,8 @@ namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
             return g;
         }
 
-        /// <summary>B2B-SWE's Dijstra's algorithm video
+
+        /// <summary>Back To Back SWE's Dijstra's algorithm video
         /// <see cref="https://www.youtube.com/watch?v=K_1urzWrzLs"/>
         /// </summary>
         /// <returns></returns>
