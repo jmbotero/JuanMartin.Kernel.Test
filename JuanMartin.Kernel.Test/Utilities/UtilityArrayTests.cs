@@ -1,31 +1,34 @@
-﻿using JuanMartin.Kernel.Utilities;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using JuanMartin.Kernel.Utilities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace JuanMartin.Kernel.Test.Utilties
+namespace JuanMartin.Kernel.Utilities.Tests
 {
-    [TestFixture]
-    public static class UtilityArrayTests
+    [TestFixture()]
+    public class UtilityArrayTests
     {
-        [Test]
-        public static void Remove_ExistingElement_ShouldNotBeIndexed()
+        [Test()]
+        public void BinarySearchOfNonExistingIntegerValue_ShouldReturnNegativeOne()
         {
-            var source = new String[] { "foo1", "foo2", "foo3" };
-            var actualIndex = Array.IndexOf<String>(source, "foo2");
+            var actual_array = new int[] { 1, 2, 3, 4 };
+            var actual_item = 10;
+            var expected_index = -1;
 
-            source = UtilityArray.Remove<String>(source, "foo2");
-
-            Assert.AreNotEqual(Array.IndexOf<String>(source, "foo2"), actualIndex);
-            Assert.AreEqual(-1, Array.IndexOf<String>(source, "foo2"));
+            Assert.AreEqual(expected_index, UtilityArray.BinarySearch<int>(actual_array, actual_item));
         }
 
-        [Test]
-        public static void RemoveFirstElement()
+        [Test()]
+        public void BinarySearchOfExistingStringValue_ShouldReturnItsIndexInArrsy()
         {
-            var source = new String[] { "foo1", "foo2", "foo3" };
+            var actual_array = new string[] { "foo1", "foo2", "foo3", "foo4", "foo5" };
+            var actual_item = "foo3";
+            var expected_index = 2;
 
-            source = UtilityArray.RemoveAt<String>(source, 0);
-            Assert.AreEqual(-1, Array.IndexOf<String>(source, "foo1"));
+            Assert.AreEqual(expected_index, UtilityArray.BinarySearch<string>(actual_array, actual_item));
         }
     }
 }
