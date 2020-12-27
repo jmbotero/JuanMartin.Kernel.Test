@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace JuanMartin.Kernel.Test.RuleEngine
+namespace JuanMartin.Kernel.RuleEngine.Tests
 {
     [TestFixture]
     public class RuleEngineTests

@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System;
 
-namespace Kernel.Test.Utilities.DataStructures
+namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
 {
     [TestFixture]
     class QueueTests

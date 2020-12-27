@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace JuanMartin.Kernel.Test.Formatters
+namespace JuanMartin.Kernel.Formatters.Tests
 {
     [TestFixture]
     public class ValueHolderTests

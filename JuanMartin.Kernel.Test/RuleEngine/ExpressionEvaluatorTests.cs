@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace JuanMartin.Kernel.Test.RuleEngine
+namespace JuanMartin.Kernel.RuleEngine.Tests
 {
     [TestFixture]
     class ExpressionEvaluatorTests

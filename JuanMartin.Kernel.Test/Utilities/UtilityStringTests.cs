@@ -1,7 +1,7 @@
 ﻿using JuanMartin.Kernel.Utilities;
 using NUnit.Framework;
 
-namespace JuanMartin.Kernel.Test.Utilities
+namespace JuanMartin.Kernel.Utilities.Tests
 {
     [TestFixture()]
     public class UtilityStringTests

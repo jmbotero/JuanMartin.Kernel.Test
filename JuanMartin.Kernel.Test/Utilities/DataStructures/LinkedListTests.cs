@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System;
 
-namespace KerneactualList.Test.Utilities.DataStructures
+namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
 {
     [TestFixture]
     class LinkedListTests

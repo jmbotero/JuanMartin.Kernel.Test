@@ -1,7 +1,8 @@
 ﻿using JuanMartin.Kernel.Messaging;
+using JuanMartin.Kernel.Test.Adapters;
 using NUnit.Framework;
 
-namespace JuanMartin.Kernel.Test.Adapters
+namespace JuanMartin.Kernel.Adapters.Tests
 {
     [TestFixture]
     public class AdapterMySqlTests

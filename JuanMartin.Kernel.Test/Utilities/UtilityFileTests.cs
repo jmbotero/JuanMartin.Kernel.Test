@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System;
 
-namespace JuanMartin.Kernel.Test.Utilties
+namespace JuanMartin.Kernel.Utilities.Tests
 {
     [TestFixture]
     class UtilityFileTests

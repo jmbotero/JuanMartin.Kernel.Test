@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace JuanMartin.Kernel.Utilities.Tests
 {
@@ -81,7 +82,86 @@ namespace JuanMartin.Kernel.Utilities.Tests
 
             Assert.AreEqual(expected_sequence, actual_sequence);
 
-        } 
+        }
         #endregion
+
+        #region Square Root tests
+        [Test()]
+        public void DotNetBabylonianSquareRootMethodShouldBeTheFastest()
+        {
+            void DotNetSquareRootLoop(int n)
+            {
+                var f = Enumerable.Range(1, n).Select(i => Math.Sqrt(i)).ToList();
+            }
+            void BabylonianSquareRootLoop(int n)
+            {
+                var f = Enumerable.Range(1, n).Select(i => UtilityMath.Sqrt_Babylonian(i)).ToList();
+            }
+            void NewtonSquareRootLoop(int n)
+            {
+                var f = Enumerable.Range(1, n).Select(i => UtilityMath.Sqrt_Newton(i)).ToList();
+            }
+            var count = 10000;
+            var actualMethodDotNetDuration = UtilityHelper.Measure(() => DotNetSquareRootLoop(count));
+            var actualMethodOneDuration = UtilityHelper.Measure(() => BabylonianSquareRootLoop(count));
+            var actualMethodTwoDuration = UtilityHelper.Measure(() => NewtonSquareRootLoop(count));
+            Assert.Less(actualMethodDotNetDuration, actualMethodOneDuration);
+            Assert.Less(actualMethodDotNetDuration, actualMethodTwoDuration);
+        }
+
+        [Test()]
+        public void ManyRunsOfGetPrimeFactors_ShouldTakeAtMost50Miliseconds()
+        {
+            void FactorPrimeLoop(int n)
+            {
+                var f = Enumerable.Range(1, n).Select(i => UtilityMath.GetPrimeFactors(i, false, true)).ToList();
+            }
+
+            var actualDuration = UtilityHelper.Measure(() => FactorPrimeLoop(100000));
+            var expectedDuration = 65;
+
+            Assert.LessOrEqual(actualDuration, expectedDuration);
+        }
+
+        #endregion
+        [Test()]
+        public void NumberFourShouldHaveOneTwoDigitProductSums()
+        {
+#pragma warning disable CS8321 // Local function is declared but never used
+            void print(string operation, List<IEnumerable<int>> info)
+#pragma warning restore CS8321 // Local function is declared but never used
+            {
+                foreach (var l in info)
+                {
+                    Console.WriteLine(string.Join(operation, l.ToArray()));
+                }
+            };
+
+            var p = UtilityMath.GetProductSums(4, 2);
+            //print("+", p);
+            Assert.AreEqual(1, p.Count);
+        }
+
+        [Test()]
+        public void GetCombinationsConsumer()
+        {
+            void CombLoop(int n, int d)
+            {
+                var f = Enumerable.Range(2, n).Select(i => UtilityMath.GetCombinations(Enumerable.Range(1, i), d)).ToList();
+            }
+            void NCombLoop(int n, int d)
+            {
+                var f = Enumerable.Range(2, n).Select(i => UtilityMath.GetCombinations(Enumerable.Range(1, i), d)).ToList();
+            }
+
+            var c = UtilityMath.GetProductSums2(8);
+
+            var s = 6;
+            var count = 12000;
+            var actualMethodOneDuration = UtilityHelper.Measure(() => NCombLoop(count, s));
+            var actualMethodTwoDuration = UtilityHelper.Measure(() => CombLoop(count, s));
+
+            Console.WriteLine($"Plain: {actualMethodOneDuration}, sorted: {actualMethodOneDuration}");
+        }
     }
 }
