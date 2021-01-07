@@ -54,7 +54,7 @@ namespace JuanMartin.Kernel.Extesions.Tests
             var source = new List<int> { 2, 3, 4, 5 };
             var expectedMultiplication = 120;
 
-            Assert.AreEqual(expectedMultiplication, source.Multiplication());
+            Assert.AreEqual(expectedMultiplication, source.Multiply());
         }
 
         [Test()]
@@ -63,7 +63,7 @@ namespace JuanMartin.Kernel.Extesions.Tests
             var source = new List<int> { };
             var expectedMultiplication = 0;
 
-            Assert.AreEqual(expectedMultiplication, source.Multiplication());
+            Assert.AreEqual(expectedMultiplication, source.Multiply());
         }
 
         [Test()]
@@ -71,7 +71,7 @@ namespace JuanMartin.Kernel.Extesions.Tests
         {
             var source = new String[] { "foo1", "foo2", "foo3" };
 
-            Assert.Throws<ArgumentException>(()=> source.Multiplication<string>());
+            Assert.Throws<ArgumentException>(()=> source.Multiply<string>());
         }
     }
 }

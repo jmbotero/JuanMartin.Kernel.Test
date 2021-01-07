@@ -147,14 +147,12 @@ namespace JuanMartin.Kernel.Utilities.Tests
         {
             void CombLoop(int n, int d)
             {
-                var f = Enumerable.Range(2, n).Select(i => UtilityMath.GetCombinations(Enumerable.Range(1, i), d)).ToList();
+                var f = Enumerable.Range(2, n).Select(i => UtilityMath.GetCombinationsOfK(Enumerable.Range(1, i).ToArray(), d)).ToList();
             }
             void NCombLoop(int n, int d)
             {
-                var f = Enumerable.Range(2, n).Select(i => UtilityMath.GetCombinations(Enumerable.Range(1, i), d)).ToList();
+                var f = Enumerable.Range(2, n).Select(i => UtilityMath.GetCombinationsOfKRecursive(Enumerable.Range(1, i), d)).ToList();
             }
-
-            var c = UtilityMath.GetProductSums2(8);
 
             var s = 6;
             var count = 12000;
