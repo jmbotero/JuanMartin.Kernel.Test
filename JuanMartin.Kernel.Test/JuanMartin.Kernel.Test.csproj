@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit.3.13.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.13.1\build\NUnit.props')" />
+  <Import Project="..\packages\Microsoft.NET.Test.Sdk.16.9.1\build\net45\Microsoft.NET.Test.Sdk.props" Condition="Exists('..\packages\Microsoft.NET.Test.Sdk.16.9.1\build\net45\Microsoft.NET.Test.Sdk.props')" />
+  <Import Project="..\packages\Microsoft.CodeCoverage.16.9.1\build\netstandard1.0\Microsoft.CodeCoverage.props" Condition="Exists('..\packages\Microsoft.CodeCoverage.16.9.1\build\netstandard1.0\Microsoft.CodeCoverage.props')" />
   <Import Project="..\..\JuanMartin.Kernel\packages\Microsoft.NET.Test.Sdk.16.7.1\build\net40\Microsoft.NET.Test.Sdk.props" Condition="Exists('..\..\JuanMartin.Kernel\packages\Microsoft.NET.Test.Sdk.16.7.1\build\net40\Microsoft.NET.Test.Sdk.props')" />
   <Import Project="..\..\JuanMartin.Kernel\packages\Microsoft.CodeCoverage.16.7.1\build\netstandard1.0\Microsoft.CodeCoverage.props" Condition="Exists('..\..\JuanMartin.Kernel\packages\Microsoft.CodeCoverage.16.7.1\build\netstandard1.0\Microsoft.CodeCoverage.props')" />
   <Import Project="..\..\JuanMartin.Kernel\packages\NUnit3TestAdapter.3.17.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\..\JuanMartin.Kernel\packages\NUnit3TestAdapter.3.17.0\build\net35\NUnit3TestAdapter.props')" />
@@ -14,7 +17,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kernel.Test</RootNamespace>
     <AssemblyName>Kernel.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -42,14 +45,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.CodeCoverage.Shim, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\JuanMartin.Kernel\packages\Microsoft.CodeCoverage.16.7.1\lib\net45\Microsoft.VisualStudio.CodeCoverage.Shim.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeCoverage.16.9.1\lib\net45\Microsoft.VisualStudio.CodeCoverage.Shim.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="MySql.Data, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\JuanMartin.Kernel\packages\MySql.Data.6.9.12\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\JuanMartin.Kernel\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.13.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.13.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -101,9 +104,16 @@
     <Error Condition="!Exists('..\..\JuanMartin.Kernel\packages\Microsoft.CodeCoverage.16.7.1\build\netstandard1.0\Microsoft.CodeCoverage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\JuanMartin.Kernel\packages\Microsoft.CodeCoverage.16.7.1\build\netstandard1.0\Microsoft.CodeCoverage.targets'))" />
     <Error Condition="!Exists('..\..\JuanMartin.Kernel\packages\Microsoft.NET.Test.Sdk.16.7.1\build\net40\Microsoft.NET.Test.Sdk.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\JuanMartin.Kernel\packages\Microsoft.NET.Test.Sdk.16.7.1\build\net40\Microsoft.NET.Test.Sdk.props'))" />
     <Error Condition="!Exists('..\..\JuanMartin.Kernel\packages\Microsoft.NET.Test.Sdk.16.7.1\build\net40\Microsoft.NET.Test.Sdk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\JuanMartin.Kernel\packages\Microsoft.NET.Test.Sdk.16.7.1\build\net40\Microsoft.NET.Test.Sdk.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeCoverage.16.9.1\build\netstandard1.0\Microsoft.CodeCoverage.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeCoverage.16.9.1\build\netstandard1.0\Microsoft.CodeCoverage.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeCoverage.16.9.1\build\netstandard1.0\Microsoft.CodeCoverage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeCoverage.16.9.1\build\netstandard1.0\Microsoft.CodeCoverage.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NET.Test.Sdk.16.9.1\build\net45\Microsoft.NET.Test.Sdk.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NET.Test.Sdk.16.9.1\build\net45\Microsoft.NET.Test.Sdk.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NET.Test.Sdk.16.9.1\build\net45\Microsoft.NET.Test.Sdk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NET.Test.Sdk.16.9.1\build\net45\Microsoft.NET.Test.Sdk.targets'))" />
+    <Error Condition="!Exists('..\packages\NUnit.3.13.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.13.1\build\NUnit.props'))" />
   </Target>
   <Import Project="..\..\JuanMartin.Kernel\packages\Microsoft.CodeCoverage.16.7.1\build\netstandard1.0\Microsoft.CodeCoverage.targets" Condition="Exists('..\..\JuanMartin.Kernel\packages\Microsoft.CodeCoverage.16.7.1\build\netstandard1.0\Microsoft.CodeCoverage.targets')" />
   <Import Project="..\..\JuanMartin.Kernel\packages\Microsoft.NET.Test.Sdk.16.7.1\build\net40\Microsoft.NET.Test.Sdk.targets" Condition="Exists('..\..\JuanMartin.Kernel\packages\Microsoft.NET.Test.Sdk.16.7.1\build\net40\Microsoft.NET.Test.Sdk.targets')" />
+  <Import Project="..\packages\Microsoft.CodeCoverage.16.9.1\build\netstandard1.0\Microsoft.CodeCoverage.targets" Condition="Exists('..\packages\Microsoft.CodeCoverage.16.9.1\build\netstandard1.0\Microsoft.CodeCoverage.targets')" />
+  <Import Project="..\packages\Microsoft.NET.Test.Sdk.16.9.1\build\net45\Microsoft.NET.Test.Sdk.targets" Condition="Exists('..\packages\Microsoft.NET.Test.Sdk.16.9.1\build\net45\Microsoft.NET.Test.Sdk.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
