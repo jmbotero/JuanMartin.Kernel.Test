@@ -1,9 +1,9 @@
-﻿using JuanMartin.Kernel.Utilities.DataStructures;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using JuanMartin.Kernel.Extesions;
+using JuanMartin.Kernel.Utilities.DataStructures;
 
 namespace JuanMartin.Kernel.Utilities.DataStructures.Tests
 {

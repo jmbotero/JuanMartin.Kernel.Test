@@ -118,7 +118,7 @@ namespace JuanMartin.Kernel.Utilities.Tests
             }
 
             var actualDuration = UtilityHelper.Measure(() => FactorPrimeLoop(100000));
-            var expectedDuration = 65;
+            var expectedDuration = 70;
 
             Assert.LessOrEqual(actualDuration, expectedDuration);
         }
